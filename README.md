@@ -15,3 +15,5 @@
 </div>
 
 A simple chat app using blazor. 
+
+Currently under development. Check Main branch for commit progress.
