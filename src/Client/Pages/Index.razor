@@ -1,5 +1,33 @@
 ﻿@page "/"
 @inject NavigationManager NavigationManager
+@implements IAsyncDisposable
+
+<PageTitle>cabzchat</PageTitle>
+<h3>lets chat!</h3>
+
+@if(!IsConnected)
+{
+    <div class="input-group">
+        <input @bind="username" class="form-control" placeholder="Enter Username">
+        <button class="btn btn-primary form-contropl-append" @onclick="Connect">Join Chat!</button>
+    </div>
+}
+else
+{
+    <textarea style="width:100%;height:300px;"> 
+        @messages
+    </textarea>
+    <div class="input-group">
+        <input @bind-value="message" 
+        @bind-value:event="oninput"
+        @onkeyup="HandleInput"        
+        class="form-control"
+        />
+        <button class="btn btn-primary form-group-append"
+         @onclick="Send" 
+         disabled="@(!IsConnected)">Send</button>
+    </div>
+}
 
 @code {
     private HubConnection? hubConnection;
@@ -13,14 +41,22 @@
         .WithUrl(NavigationManager.ToAbsoluteUri("/chathub"))
         .Build();
 
-        hubConnection.On<string,string>("GetThatMessage",(user,message) =>
+        hubConnection.On<string,string>("GetThatMessage",(message,user) =>
         {
-            var msg = $"{(string.IsNullOrEmpty(user) ? "" : user + ": " + message)}";
+            var msg = $"{(string.IsNullOrEmpty(user) ? "" : user + ": ")}{message}";
             messages += msg + "\n";
             StateHasChanged();
         });
 
         await hubConnection.StartAsync();
+    }
+
+    private async Task HandleInput(KeyboardEventArgs args)
+    {
+        if(args.Key.Equals("Enter"))
+        {
+            await Send();
+        }
     }
 
     private async Task Send()
