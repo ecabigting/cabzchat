@@ -3,7 +3,7 @@
 @implements IAsyncDisposable
 
 <PageTitle>cabzchat</PageTitle>
-<h3>lets chat!</h3>
+<h3>Hey lets chat!</h3>
 
 @if(!IsConnected)
 {
@@ -38,7 +38,7 @@ else
     private async Task Connect()
     {
         hubConnection = new HubConnectionBuilder()
-        .WithUrl(NavigationManager.ToAbsoluteUri("/chathub"))
+        .WithUrl(NavigationManager.ToAbsoluteUri($"/chathub?username={username}"))
         .Build();
 
         hubConnection.On<string,string>("GetThatMessage",(message,user) =>
