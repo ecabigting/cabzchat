@@ -4,7 +4,7 @@ namespace cabzchat.Server.Hubs
 {
     public class ChatHub : Hub
     {
-        // dirty quick solution
+        // dirty quick solution for maintaining user names
     private static Dictionary<string, string> Users = new Dictionary<string, string>();
         public async Task SendMessageToChat(string msg, string username)
         {
