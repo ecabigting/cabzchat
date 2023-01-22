@@ -14,12 +14,12 @@ builder.Services.AddResponseCompression(options =>
     .Concat(new []{ "application/octet-stream" })
 );
 
-builder.Services.AddCors(option => option.AddPolicy("chatpolicy", builder => {
-    builder.AllowAnyOrigin()
-        .AllowAnyMethod()
-        .AllowAnyHeader()
-        .AllowCredentials();
-}));
+// builder.Services.AddCors(option => option.AddPolicy("chatpolicy", builder => {
+//     builder.AllowAnyOrigin()
+//         .AllowAnyMethod()
+//         .AllowAnyHeader()
+//         .AllowCredentials();
+// }));
 
 var app = builder.Build();
 
@@ -43,6 +43,12 @@ app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseCors(cors => cors
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetIsOriginAllowed(origin => true)
+                .AllowCredentials()
+            );
 
 app.MapRazorPages();
 app.MapControllers();
