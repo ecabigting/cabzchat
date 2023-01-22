@@ -14,6 +14,13 @@ builder.Services.AddResponseCompression(options =>
     .Concat(new []{ "application/octet-stream" })
 );
 
+builder.Services.AddCors(option => option.AddPolicy("chatpolicy", builder => {
+    builder.AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader()
+        .AllowCredentials();
+}));
+
 var app = builder.Build();
 
 app.UseResponseCompression();
@@ -36,7 +43,6 @@ app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
 
 app.UseRouting();
-
 
 app.MapRazorPages();
 app.MapControllers();
