@@ -14,6 +14,6 @@
 
 </div>
 
-A simple chat app using blazor. 
+A simple chat app using blazor. A demo of the app can be found [here](https://cabzchat.azurewebsites.net/).
 
 Currently under development. Check Main branch for commit progress.
